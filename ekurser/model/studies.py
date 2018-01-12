@@ -59,4 +59,4 @@ class WniosekOUruchomienieGrupyZajeciowej(models.Model):
     student = models.ForeignKey('Student', models.DO_NOTHING)
     zgodapelnomocnika = models.NullBooleanField()
     statuswniosku = models.ForeignKey('StatusWniosku', models.DO_NOTHING, blank=True, null=True)
-    nrwniosku = models.CharField()
+    nrwniosku = models.CharField(max_length=10)
