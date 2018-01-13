@@ -1,3 +1,6 @@
+-- dodałem ID w niektórych relacjach (chyba tylko w tych pośredniczących z ManyToMany),
+-- może lepiej to usunąć przed wysłaniem, bo to w sumie chyba był błąd
+
 CREATE TABLE Student (
   ID        SERIAL       NOT NULL,
   Imie      VARCHAR(255) NOT NULL,
@@ -29,7 +32,7 @@ CREATE TABLE GrupaZajeciowa (
   ID                SERIAL NOT NULL,
   KursID            INT4   NOT NULL,
   StudentID         INT4   NOT NULL,
-  RodzajGrupy       INT4,
+  RodzajGrupy       INT4   NOT NULL,
   CzyUruchomiona    BOOL   NOT NULL,
   LiczbaMiejsc      INT4   NOT NULL,
   LiczbaUczestnikow INT4   NOT NULL,
@@ -48,6 +51,7 @@ CREATE TABLE WniosekOUruchomienieGrupyZajeciowej (
   ZgodaPelnomocnika BOOL,
   StatusWniosku     INT4,
   NrWniosku         INT4   NOT NULL,
+  GrupaZajeciowaID  INT4   NOT NULL,
   PRIMARY KEY (ID)
 );
 CREATE TABLE Termin (
@@ -74,29 +78,34 @@ CREATE TABLE StatusWniosku (
   PRIMARY KEY (ID)
 );
 CREATE TABLE NauczycielAkademicki_Kurs (
+  ID    SERIAL      NOT NULL,
   NauczycielAkademickiID INT4 NOT NULL,
   KursID                 INT4 NOT NULL,
-  PRIMARY KEY (NauczycielAkademickiID, KursID)
+  PRIMARY KEY (ID)
 );
 CREATE TABLE NauczycielAkademicki_Kurs2 (
+  ID    SERIAL      NOT NULL,
   NauczycielAkademickiID INT4 NOT NULL,
   KursID                 INT4 NOT NULL,
-  PRIMARY KEY (NauczycielAkademickiID, KursID)
+  PRIMARY KEY (ID)
 );
 CREATE TABLE Kurs_Kurs (
+  ID    SERIAL      NOT NULL,
   KursID  INT4 NOT NULL,
   KursID2 INT4 NOT NULL,
-  PRIMARY KEY (KursID, KursID2)
+  PRIMARY KEY (ID)
 );
 CREATE TABLE Student_GrupaZajeciowa (
+  ID    SERIAL      NOT NULL,
   StudentID        INT4 NOT NULL,
   GrupaZajeciowaID INT4 NOT NULL,
-  PRIMARY KEY (StudentID, GrupaZajeciowaID)
+  PRIMARY KEY (ID)
 );
 CREATE TABLE GrupaZajeciowa_NauczycielAkademicki (
+  ID    SERIAL      NOT NULL,
   GrupaZajeciowaID       INT4 NOT NULL,
   NauczycielAkademickiID INT4 NOT NULL,
-  PRIMARY KEY (GrupaZajeciowaID, NauczycielAkademickiID)
+  PRIMARY KEY (ID)
 );
 ALTER TABLE NauczycielAkademicki_Kurs
   ADD CONSTRAINT opiekujeSie FOREIGN KEY (NauczycielAkademickiID) REFERENCES NauczycielAkademicki (ID);
@@ -136,3 +145,6 @@ ALTER TABLE WniosekOUruchomienieGrupyZajeciowej
   ADD CONSTRAINT FKWniosekOUr738413 FOREIGN KEY (StatusWniosku) REFERENCES StatusWniosku (ID);
 ALTER TABLE GrupaZajeciowa
   ADD CONSTRAINT FKGrupaZajec946553 FOREIGN KEY (RodzajGrupy) REFERENCES RodzajGrupy (ID);
+ALTER TABLE WniosekOUruchomienieGrupyZajeciowej
+  ADD CONSTRAINT FKWniosekOUr464836 FOREIGN KEY (GrupaZajeciowaID) REFERENCES GrupaZajeciowa (ID);
+
