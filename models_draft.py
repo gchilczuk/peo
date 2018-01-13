@@ -7,6 +7,7 @@
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
+
 class Dzientygodnia(models.Model):
     nazwa = models.CharField(max_length=32)
 
@@ -30,7 +31,8 @@ class Grupazajeciowa(models.Model):
 
 class GrupazajeciowaNauczycielakademicki(models.Model):
     grupazajeciowaid = models.ForeignKey(Grupazajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid')
-    nauczycielakademickiid = models.ForeignKey('Nauczycielakademicki', models.DO_NOTHING, db_column='nauczycielakademickiid')
+    nauczycielakademickiid = models.ForeignKey('Nauczycielakademicki', models.DO_NOTHING,
+                                               db_column='nauczycielakademickiid')
 
     class Meta:
         managed = False
@@ -73,7 +75,8 @@ class Nauczycielakademicki(models.Model):
 
 
 class NauczycielakademickiKurs(models.Model):
-    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING, db_column='nauczycielakademickiid')
+    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING,
+                                               db_column='nauczycielakademickiid')
     kursid = models.ForeignKey(Kurs, models.DO_NOTHING, db_column='kursid')
 
     class Meta:
@@ -83,7 +86,8 @@ class NauczycielakademickiKurs(models.Model):
 
 
 class NauczycielakademickiKurs2(models.Model):
-    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING, db_column='nauczycielakademickiid')
+    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING,
+                                               db_column='nauczycielakademickiid')
     kursid = models.ForeignKey(Kurs, models.DO_NOTHING, db_column='kursid')
 
     class Meta:
@@ -94,7 +98,8 @@ class NauczycielakademickiKurs2(models.Model):
 
 class Opinia(models.Model):
     grupazajeciowaid = models.ForeignKey(Grupazajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid')
-    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING, db_column='nauczycielakademickiid')
+    nauczycielakademickiid = models.ForeignKey(Nauczycielakademicki, models.DO_NOTHING,
+                                               db_column='nauczycielakademickiid')
     tresc = models.CharField(max_length=2500)
 
     class Meta:
@@ -141,7 +146,8 @@ class StudentGrupazajeciowa(models.Model):
 
 
 class Termin(models.Model):
-    grupazajeciowaid = models.ForeignKey(Grupazajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid', blank=True, null=True)
+    grupazajeciowaid = models.ForeignKey(Grupazajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid', blank=True,
+                                         null=True)
     dzien = models.ForeignKey(Dzientygodnia, models.DO_NOTHING, db_column='dzien', blank=True, null=True)
     godzina = models.CharField(max_length=10, blank=True, null=True)
     sala = models.CharField(max_length=10)
@@ -154,12 +160,11 @@ class Termin(models.Model):
 class Wniosekouruchomieniegrupyzajeciowej(models.Model):
     studentid = models.ForeignKey(Student, models.DO_NOTHING, db_column='studentid')
     zgodapelnomocnika = models.NullBooleanField()
-    statuswniosku = models.ForeignKey(Statuswniosku, models.DO_NOTHING, db_column='statuswniosku', blank=True, null=True)
+    statuswniosku = models.ForeignKey(Statuswniosku, models.DO_NOTHING, db_column='statuswniosku', blank=True,
+                                      null=True)
     nrwniosku = models.IntegerField()
     grupazajeciowaid = models.ForeignKey(Grupazajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid')
 
     class Meta:
         managed = False
         db_table = 'wniosekouruchomieniegrupyzajeciowej'
-
-##[jetbrains/home/widelec/Projects/peo/models_draft.py

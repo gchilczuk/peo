@@ -1,6 +1,38 @@
 {% extends "base.html" %}
+{% block title %}
+    eKurser - Student
+{% endblock title %}
 
 {% block content %}
+<div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h3 class="bg-info text-white">&nbsp;Kursy powtórkowe</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <p><a href="{% url 'group_picker' %}" role="button" class="btn btn-primary btn-sm">Dołącz do grupy</a></p>
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Grupy w których jestem</a></p>
+                </div>
+                <div class="col-md-4">
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Utwórz grupę</a></p>
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Zarządzaj grupami</a></p>
+                </div>
+            </div>
+            <p><a class="btn btn-secondary" href="#" role="button">Moje wnioski</a></p>
+          </div>
+          <div class="col-md-6">
+            <h3 class="bg-info text-light">&nbsp;Zamienniki</h3>
+             <div class="row">
+                <div class="col-md-4">
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Wyszukiwarka zamiennikow</a></p>
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Złóż wniosek o zamiennik</a></p>
+                </div>
+            </div>
+              <p><a class="btn btn-secondary" href="#" role="button">Moje wnioski</a></p>
+          </div>
+        </div>
+        <hr>
 
-{
+      </div>
+
 {% endblock %}

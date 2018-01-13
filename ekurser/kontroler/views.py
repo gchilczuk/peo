@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+
 
 def hello_world(request):
 
@@ -8,6 +8,4 @@ def hello_world(request):
         'title': 'Tytuł'
     }
 
-    return render(request, 'base.html', context )
-
-# zrobić DTO - czyli obiekt o konkretnej strukturze, którą będzie wyświetlał template
+    return render(request, 'base.html', context)

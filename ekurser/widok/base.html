@@ -17,26 +17,37 @@
             crossorigin="anonymous"></script>
 
 
-    <title>{% block title %} Base {% endblock title %}</title>
-
-
-{#    <link href="https://fonts.googleapis.com/css?family=Baloo|Raleway|Sansita:700" rel="stylesheet">#}
+    <title>{% block title %} eKurser {% endblock title %}</title>
 
 </head>
 <body>
   <div id="container">
 
-    <header id="header">
-    <h1>  {{ title }} </h1>
-    </header>
+    <div class="d-block p-2 bg-light text-info ">
+        <div class="row">
+            <div class="col-sm-8 ">&nbsp;&nbsp;&nbsp;Zalogowany: {{ nav.user }}</div>
+            <div class="col-sm-2"><a class="link" href="#">profil</a> &nbsp;&nbsp;&nbsp;<a class="link" href="#">wyloguje</a></div>
+        </div>
+    </div>
+
+      <p class="d-block"></p>
+
+    <span class="d-block p-2 bg-secondary text-light">
+        {%  for place in nav.location %}
+            <a class="text-light" href="{{ place.href }}"> {{  place.name }}</a> /
+        {% endfor %}
+    </span>
+
+    <br>
+
+    {% block navbar %}
+    {% endblock navbar %}
 
 
     <div id="main">
 
       <div id="content">
         {% block content %}
-            {{ hello }}
-
         {% endblock content %}
       </div>
 
