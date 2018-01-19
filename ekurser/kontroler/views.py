@@ -9,3 +9,6 @@ def hello_world(request):
     }
 
     return render(request, 'base.html', context)
+
+def main_view(request):
+    return  render(request, 'main.html', {})
