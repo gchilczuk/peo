@@ -16,6 +16,9 @@ class RodzajGrupy(models.Model):
         managed = False
         db_table = 'rodzajgrupy'
 
+    def short(self):
+        return self.nazwa[0].upper()
+
 
 class StatusWniosku(models.Model):
     nazwa = models.CharField(max_length=32)

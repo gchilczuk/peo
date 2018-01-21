@@ -1,5 +1,7 @@
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.db import models
 from .enums import DzienTygodnia, RodzajGrupy, StatusWniosku
+from .through_models import Uczestnictwo
 
 
 class MyUser(models.Model):
@@ -10,6 +12,9 @@ class MyUser(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self):
+        return f'{self.imie} {self.nazwisko}'
 
 
 class Student(MyUser):
@@ -63,6 +68,22 @@ class GrupaZajeciowa(models.Model):
         managed = False
         db_table = 'grupazajeciowa'
 
+    def dodaj_studenta(self, student):
+        if self.liczbauczestnikow < self.liczbamiejsc:
+            _, created = Uczestnictwo.objects.get_or_create(grupazajeciowa=self, student=student)
+            self.liczbauczestnikow += 1
+            self.save()
+            return created
+        else:
+            raise ValidationError('Group is full')
+
+    def save(self, *args, **kwargs):
+        super(GrupaZajeciowa, self).save(*args, **kwargs)
+        try:
+            self.termin
+        except ObjectDoesNotExist:
+            self.termin = Termin()
+
 
 class WniosekOUruchomienieGrupyZajeciowej(models.Model):
     student = models.ForeignKey(Student, models.DO_NOTHING, db_column='studentid')
@@ -89,8 +110,8 @@ class Opinia(models.Model):
 
 
 class Termin(models.Model):
-    grupazajeciowaid = models.ForeignKey(GrupaZajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid',
-                                         blank=True, null=True)
+    grupazajeciowaid = models.OneToOneField(GrupaZajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid',
+                                            blank=True, null=True, related_name='termin')
     dzien = models.ForeignKey(DzienTygodnia, models.DO_NOTHING, db_column='dzien', blank=True, null=True)
     godzina = models.CharField(max_length=10, blank=True, null=True)
     sala = models.CharField(max_length=10)
@@ -98,3 +119,6 @@ class Termin(models.Model):
     class Meta:
         managed = False
         db_table = 'termin'
+
+    def __str__(self):
+        return f'{self.dzien.nazwa:12} {self.godzina:5} {self.sala:7}'

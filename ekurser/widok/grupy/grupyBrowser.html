@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}
+    eKurser - Student
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+     <div class="row">
+        <div class="col-md-3 bg-secondary  m-3">
+            <div class="container  text-white text-center"><p> Nazwa kursu:<br>
+                {% if nav.nazwa == '' %}&lt;brak&gt;{% else %}{{ nav.nazwa }}{% endif %}</p></div>
+        </div>
+        <div class="col-md-3 bg-secondary m-3">
+            <div class="container  text-white text-center "> Rodzaj grupy: <br>
+            {% if nav.rodzaj == '' %}wszystkie{% else %}{{ nav.rodzaj.0 }}{% endif %}</div>
+        </div>
+        <div class="col-md-2 m-3">
+            <a  href="{% url 'group_picker' %}" role="button" class="btn btn-info "> Zmień parametry <br> filtrowania</a>
+        </div>
+        <div class="col-md-2 m-3">
+            <a  href="{% url 'student_home' %}" role="button" class="btn btn-info "> Powrót do menu <br> głównego</a>
+        </div>
+    </div>
+    </div>
+    <div class="container bg-secondary p-2">
+
+        <h3 class="bg-info text-white">&nbsp;Znalezione grupy</h3>
+        {% for grupa in grupy %}
+            <div class="row bg-light m-2">
+                <div class="col-md-6">
+                    <strong>Kurs:</strong> {{ grupa.kurs }} <br>
+                    <strong>Prowadzący:</strong> {{ grupa.prowadzacy }} <br>
+                    <strong>Rodzaj grupy:</strong> {{ grupa.rodzaj }} <strong>| Sala:</strong> {{ grupa.sala }}
+                    <strong>| Termin:</strong> {{ grupa.termin }}
+                </div>
+                <div class="col-md-3">
+                    <p class="text-center"><strong>Miejsca:</strong> <br>
+                        {{ grupa.zapisanych }} / {{ grupa.miejsc }}</p>
+                </div>
+                <div class="col-md-1 p-2">
+                    {% if grupa.zapisanych < grupa.miejsc %}
+                        <script>
+                            function conf{{ grupa.id }}() {
+                                confirm("Czy na pewno chcesz dołączyć do grupy:\nKurs: {{ grupa.kurs }}\nProwadzący: {{ grupa.prowadzacy }}\n" +
+                                    "Rodzaj grupy: {{ grupa.rodzaj }}\nSala: {{ grupa.sala }}\nTermin:{{ grupa.termin }}")
+                            }
+                        </script>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <input name="rodzaj" type="text" value="{{ nav.rodzaj.1 }}" hidden>
+                            <input name="nazwa" type="text" value="{{ nav.nazwa }}" hidden>
+                            <input name="student" type="text" value="1" hidden>
+                            <input name="grupa" type="text" value="{{ grupa.id }}" hidden>
+                            <input type="submit" value="Dołącz do grupy" class="btn btn-success"
+                                   onclick="conf{{ grupa.id }}()">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% if postback.ispostback %}
+        <div class="container">
+        {% if postback.success %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Dołączono do grupy
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span></button>
+            </div>
+        {% else %}
+
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                Operacja niedozwolona: {{ postback.message }}
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span></button>
+            </div>
+
+        {% endif %}
+        </div>
+
+    {% endif %}
+{% endblock content %}

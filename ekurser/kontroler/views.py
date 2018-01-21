@@ -1,14 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from ekurser.model.through_models import Uczestnictwo
 
 
-def hello_world(request):
+def clear_db(request):
+    Uczestnictwo.objects.all().delete()
+    return redirect('main')
 
-    context = {
-        'helo': 'No cześć',
-        'title': 'Tytuł'
-    }
-
-    return render(request, 'base.html', context)
 
 def main_view(request):
     return  render(request, 'main.html', {})
