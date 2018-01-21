@@ -3,32 +3,34 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
-from ekurser.DTO.student import Navigation, Location, Group
-from ekurser.DTO.postback import Postback
+from ekurser.DTO.student import Group
+from ekurser.DTO.navigation import Location, Navigation, Postback
 from ekurser.model.enums import RodzajGrupy
 from ekurser.model.models import GrupaZajeciowa, Student
-from ekurser.model.through_models import Uczestnictwo
 from .forms import grupyForm, grupyConfirmForm
 
 
 class StudentHomeView(View):
     def get(self, request):
+        student = Student.objects.get(id=1)
         location = [Location('Home', reverse('student_home'))]
-        context = {'nav': Navigation('Jaś Fasola', location)}
+        context = {'navigation': Navigation(str(student), location, uid=student.id)}
 
         return render(request, 'grupy/sHome.html', context)
 
 
 class GroupPickerView(View):
     def get(self, request):
+        student = Student.objects.get(id=1)
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]
 
-        context = {'nav': Navigation('Jaś Fasola', location),
+        context = {'navigation':Navigation(str(student), location, uid=student.id),
                    'form': grupyForm()}
         return render(request, 'grupy/grupyForm.html', context)
 
     def post(self, request):
+        student = Student.objects.get(id=1)
         postback = Postback()
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]
@@ -51,7 +53,7 @@ class GroupPickerView(View):
                 postback.message = 'Grupa jest pełna'
 
         rodzaj, nazwa = form.cleaned_data['rodzaj'], form.cleaned_data['nazwa']
-        filters ={'kurs__nazwakursu__contains': nazwa}
+        filters = {'kurs__nazwakursu__contains': nazwa}
         if rodzaj:
             filters['rodzajgrupy_id'] = rodzaj
             rodzaj = (RodzajGrupy.objects.get(id=rodzaj).nazwa, rodzaj)
@@ -67,8 +69,7 @@ class GroupPickerView(View):
                 miejsc=grupa.liczbamiejsc,
                 id=grupa.id
             ))
-        context = {'nav': Navigation('Jaś Fasola', location, rodzaj=rodzaj, nazwa=nazwa),
+        context = {'navigation': Navigation(str(student), location, uid=student.id, rodzaj=rodzaj, nazwa=nazwa),
                    'grupy': grupy, 'postback': postback}
 
         return render(request, 'grupy/grupyBrowser.html', context)
-

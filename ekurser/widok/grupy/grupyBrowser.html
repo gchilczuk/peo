@@ -8,11 +8,11 @@
      <div class="row">
         <div class="col-md-3 bg-secondary  m-3">
             <div class="container  text-white text-center"><p> Nazwa kursu:<br>
-                {% if nav.nazwa == '' %}&lt;brak&gt;{% else %}{{ nav.nazwa }}{% endif %}</p></div>
+                {% if navigation.nazwa == '' %}&lt;brak&gt;{% else %}{{ navigation.nazwa }}{% endif %}</p></div>
         </div>
         <div class="col-md-3 bg-secondary m-3">
             <div class="container  text-white text-center "> Rodzaj grupy: <br>
-            {% if nav.rodzaj == '' %}wszystkie{% else %}{{ nav.rodzaj.0 }}{% endif %}</div>
+            {% if navigation.rodzaj == '' %}wszystkie{% else %}{{ navigation.rodzaj.0 }}{% endif %}</div>
         </div>
         <div class="col-md-2 m-3">
             <a  href="{% url 'group_picker' %}" role="button" class="btn btn-info "> Zmień parametry <br> filtrowania</a>
@@ -47,9 +47,9 @@
                         </script>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <input name="rodzaj" type="text" value="{{ nav.rodzaj.1 }}" hidden>
-                            <input name="nazwa" type="text" value="{{ nav.nazwa }}" hidden>
-                            <input name="student" type="text" value="1" hidden>
+                            <input name="rodzaj" type="text" value="{{ navigation.rodzaj.1 }}" hidden>
+                            <input name="nazwa" type="text" value="{{ navigation.nazwa }}" hidden>
+                            <input name="student" type="text" value="{{ navigation.uid }}" hidden>
                             <input name="grupa" type="text" value="{{ grupa.id }}" hidden>
                             <input type="submit" value="Dołącz do grupy" class="btn btn-success"
                                    onclick="conf{{ grupa.id }}()">
