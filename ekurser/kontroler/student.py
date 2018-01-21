@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.db.models import F
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -65,10 +66,14 @@ class GroupPickerView(View):
                 rodzaj=grupa.rodzajgrupy.short(),
                 sala=grupa.termin.sala or '<brak>',
                 termin=f'{grupa.termin.dzien.nazwa} {grupa.termin.godzina}' if grupa.termin.dzien else '<brak>',
-                zapisanych=grupa.studenci.count(),
+                zapisanych=grupa.liczbauczestnikow,
                 miejsc=grupa.liczbamiejsc,
+                uruchomiona=grupa.czyuruchomiona,
                 id=grupa.id
             ))
+            if grupa.studenci.filter(id=student.id):
+                grupy[-1].zapisany = True
+
         context = {'navigation': Navigation(str(student), location, uid=student.id, rodzaj=rodzaj, nazwa=nazwa),
                    'grupy': grupy, 'postback': postback}
 

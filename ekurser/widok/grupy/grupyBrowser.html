@@ -26,6 +26,7 @@
 
         <h3 class="bg-info text-white">&nbsp;Znalezione grupy</h3>
         {% for grupa in grupy %}
+            {% if not grupa.uruchomiona %}
             <div class="row bg-light m-2">
                 <div class="col-md-6">
                     <strong>Kurs:</strong> {{ grupa.kurs }} <br>
@@ -40,9 +41,12 @@
                 <div class="col-md-1 p-2">
                     {% if grupa.zapisanych < grupa.miejsc %}
                         <script>
-                            function conf{{ grupa.id }}() {
-                                confirm("Czy na pewno chcesz dołączyć do grupy:\nKurs: {{ grupa.kurs }}\nProwadzący: {{ grupa.prowadzacy }}\n" +
-                                    "Rodzaj grupy: {{ grupa.rodzaj }}\nSala: {{ grupa.sala }}\nTermin:{{ grupa.termin }}")
+                            function conf{{ grupa.id }}(event) {
+
+                                if(!confirm("Czy na pewno chcesz dołączyć do grupy:\nKurs: {{ grupa.kurs }}\nProwadzący: {{ grupa.prowadzacy }}\n" +
+                                    "Rodzaj grupy: {{ grupa.rodzaj }}\nSala: {{ grupa.sala }}\nTermin:{{ grupa.termin }}")){
+                                    event.preventDefault();
+                                }
                             }
                         </script>
                         <form action="" method="post">
@@ -52,11 +56,12 @@
                             <input name="student" type="text" value="{{ navigation.uid }}" hidden>
                             <input name="grupa" type="text" value="{{ grupa.id }}" hidden>
                             <input type="submit" value="Dołącz do grupy" class="btn btn-success"
-                                   onclick="conf{{ grupa.id }}()">
+                                   onclick="conf{{ grupa.id }}(event)" {% if grupa.zapisany %} disabled {% endif %}>
                         </form>
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
         {% endfor %}
     </div>
     {% if postback.ispostback %}

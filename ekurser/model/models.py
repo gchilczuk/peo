@@ -67,6 +67,7 @@ class GrupaZajeciowa(models.Model):
     class Meta:
         managed = False
         db_table = 'grupazajeciowa'
+        ordering = ['liczbauczestnikow']
 
     def dodaj_studenta(self, student):
         if self.liczbauczestnikow < self.liczbamiejsc:

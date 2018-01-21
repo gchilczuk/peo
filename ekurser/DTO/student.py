@@ -1,7 +1,7 @@
 
 class Group(object):
 
-    def __init__(self, kurs, prowadzacy, rodzaj, sala, termin, zapisanych, miejsc, id):
+    def __init__(self, kurs, prowadzacy, rodzaj, sala, termin, zapisanych, miejsc, uruchomiona, id):
         self.kurs = kurs
         self.prowadzacy = prowadzacy
         self.rodzaj = rodzaj
@@ -9,6 +9,9 @@ class Group(object):
         self.termin = termin
         self.zapisanych = zapisanych
         self.miejsc = miejsc
+        self.uruchomiona = uruchomiona
         self.id = id
+        self.zapisany = False
+
 
 
