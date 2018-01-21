@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}
+    eKurser - Pracownik
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 bg-light pr-3">
+                <h3 class="bg-info text-white">&nbsp;Kursy powtórkowe</h3>
+                <div class="col-md-4">
+                    <p><a href="{% url 'petition_list' %}" role="button" class="btn btn-primary btn-sm">
+                        Wnioski o uruchomienie grupy</a></p>
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Zamienniki kursów</a></p>
+                    <p><a href="#" role="button" class="btn btn-primary btn-sm">Historia rozpatrzonych wnioskó</a></p>
+                </div>
+            </div>
+        </div>
+        <hr>
+
+    </div>
+
+{% endblock %}

@@ -141,3 +141,18 @@ def kreator_3():
     p2.save()
 
 
+def wniosek_kreator():
+    w1 = WniosekOUruchomienieGrupyZajeciowej(
+        student_id=3,
+        statuswniosku_id=1,
+        nrwniosku=12018,
+        grupazajeciowa_id=3
+    )
+    w2 = WniosekOUruchomienieGrupyZajeciowej(
+        student_id=2,
+        statuswniosku_id=1,
+        nrwniosku=22018,
+        grupazajeciowa_id=3
+    )
+    w1.save()
+    w2.save()

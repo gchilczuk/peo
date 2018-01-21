@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}
+    eKurser - Pracownik
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="container bg-secondary p-2">
+        <h3 class="bg-info text-white">&nbsp;Znalezione grupy</h3>
+        {% for wniosek in wnioski %}
+            <div class="row bg-light m-2">
+                <div class="col-md-8">
+                    <strong>Numer: </strong> {{ wniosek.numer }} <br>
+                    <strong>Kurs: </strong> {{ wniosek.kurs }} <br>
+                    <strong>Składający: </strong> {{ wniosek.skladajacy }} <br>
+                    <strong>Prowadzący: </strong> {{ wniosek.prowadzacy }} <br>
+                    <strong>Rodzaj: </strong> {{ wniosek.rodzaj }} <br>
+                </div>
+
+            <div class="col-md-1 p-2">
+                <a class="btn btn-success btn-lg" role="button" href="{% url "petition" wniosek.id %}">Szczegóły</a>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}
