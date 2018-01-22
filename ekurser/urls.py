@@ -4,7 +4,7 @@ from ekurser.kontroler.pracownik import TeacherHomeView, PetitionListView, Petit
 from ekurser.kontroler.views import main_view, clear_db
 
 urlpatterns = [
-    path('/', main_view, name='main'),
+    path('', main_view, name='main'),
     path('student', StudentHomeView.as_view(), name='student_home'),
     path('student/grupy', GroupPickerView.as_view(), name='group_picker'),
     path('pracownik/', TeacherHomeView.as_view(), name='teacher_home'),
