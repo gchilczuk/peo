@@ -25,7 +25,9 @@ SECRET_KEY = 'd)*dto#-o4*9j=$^fvhud_f#lsaggh!7!l*_fjlkzkl73pj()-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://ekurser.herokuapp.com']
+ALLOWED_HOSTS = ['https://ekurser.herokuapp.com',
+                 '156.17.147.200',
+                 'ekurser.herokuapp.com']
 
 
 # Application definition
