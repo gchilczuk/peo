@@ -10,10 +10,11 @@ from ekurser.model.enums import RodzajGrupy
 from ekurser.model.models import GrupaZajeciowa, Student
 from .forms import grupyForm, grupyConfirmForm
 
+student_id = 1
 
 class StudentHomeView(View):
     def get(self, request):
-        student = Student.objects.get(id=1)
+        student = Student.objects.get(id=student_id)
         location = [Location('Home', reverse('student_home'))]
         context = {'navigation': Navigation(str(student), location, uid=student.id)}
 
@@ -22,7 +23,7 @@ class StudentHomeView(View):
 
 class GroupPickerView(View):
     def get(self, request):
-        student = Student.objects.get(id=1)
+        student = Student.objects.get(id=student_id)
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]
 
@@ -31,7 +32,7 @@ class GroupPickerView(View):
         return render(request, 'grupy/grupyForm.html', context)
 
     def post(self, request):
-        student = Student.objects.get(id=1)
+        student = Student.objects.get(id=student_id)
         postback = Postback()
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}
+    eKurser - Pracownik
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="container bg-secondary p-2">
+            <h3 class="bg-info text-white">&nbsp;Wniosek {{ wniosek.numer }}</h3>
+            <div class="row bg-light m-2">
+                <div class="col-md-8">
+                    <strong>Numer wniosku: </strong> {{ wniosek.numer }} <br>
+                    <strong>Zgoda: </strong> <div class="text-info">{{ wniosek.zgoda }} </div><br>
+                    <strong>Status wniosku: </strong> {{ wniosek.status }} <br>
+                    <strong>Nazwa kursu: </strong> {{ wniosek.kurs }} <br>
+                    <strong>Osoba składająca wniosek: </strong> {{ wniosek.skladajacy }} <br>
+                    <strong>Prowadzący grupy: </strong> {{ wniosek.prowadzacy }} <br>
+                    <strong>Zapisanych studentów: </strong> {{ wniosek.zapisanych }} <br>
+                    <strong>Rodzaj: </strong> {{ wniosek.rodzaj }} <br>
+                    <strong>Sala: </strong> {{ wniosek.sala }} <br>
+                    <strong>Termin: </strong> {{ wniosek.termin }} <br>
+                    <strong>Opinia opiekuna kursu: </strong> <br>{{ wniosek.opinia }} <br>
+                </div>
+            </div>
+
+        </div>
+        {% if not postback.ispostback %}
+            <div class="row">
+                <div class="col-md-6">
+                    <form action="{% url "petition" wniosek.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="kurs" value="{{ wniosek.id }}" hidden>
+                        <input type="text" name="zgoda" value="0" hidden>
+                        <input type="submit" class="btn btn-danger btn-lg" value="Odrzuć wniosek">
+                    </form>
+                </div>
+
+                <div class="col-md-5">
+                    <form action="{% url "petition" wniosek.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="kurs" value="{{ wniosek.id }}" hidden>
+                        <input type="text" name="zgoda" value="1" hidden>
+                        <input type="submit" class="btn btn-success btn-lg" value="Zatwierdź wniosek">
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="container">
+                {% if postback.success %}
+                    <div class="alert alert-success" role="alert">
+                        {{ postback.message }}
+                    </div>
+                {% else %}
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ postback.message }}
+
+                    </div>
+
+                {% endif %}
+            </div>
+
+        {% endif %}
+    </div>
+
+{% endblock content %}

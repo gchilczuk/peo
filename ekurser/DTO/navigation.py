@@ -5,10 +5,11 @@ Location = namedtuple('Location', ['name', 'href'])
 
 class Navigation(object):
 
-    def __init__(self, user, location, uid=1, **kwargs):
+    def __init__(self, user, location, uid=1, permissions=None, **kwargs):
         self.user = user
         self.location = location
         self.uid = uid
+        self.permissions = permissions or {}
         self.other = kwargs
 
     def __getitem__(self, name: str):

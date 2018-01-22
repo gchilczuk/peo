@@ -11,3 +11,8 @@ class grupyConfirmForm(forms.Form):
     rodzaj = forms.CharField(required=False)
     student = forms.CharField()
     grupa = forms.CharField()
+
+
+class petitionJudgeForm(forms.Form):
+    kurs = forms.CharField()
+    zgoda = forms.CharField()

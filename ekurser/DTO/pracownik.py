@@ -1,7 +1,7 @@
 
 class Wniosek(object):
 
-    def __init__(self, numer, status, kurs, skladajacy, prowadzacy, zapisanych, rodzaj, sala, termin, opinia, id):
+    def __init__(self, numer, status, kurs, skladajacy, prowadzacy, zapisanych, rodzaj, sala, termin, opinia, zgoda=None,id=None):
         self.numer = numer
         self.status = status
         self.kurs = kurs
@@ -12,4 +12,5 @@ class Wniosek(object):
         self.sala = sala
         self.termin = termin
         self.opinia = opinia
+        self.zgoda = zgoda or "Brak informacji"
         self.id = id
