@@ -12,7 +12,10 @@ from .forms import grupyForm, grupyConfirmForm
 
 student_id = 1
 
+
 class StudentHomeView(View):
+    """Strona domowa studenta"""
+
     def get(self, request):
         student = Student.objects.get(id=student_id)
         location = [Location('Home', reverse('student_home'))]
@@ -22,17 +25,20 @@ class StudentHomeView(View):
 
 
 class GroupPickerView(View):
+    """Wyszukiwanie, przeglądanie i wybieranie grup"""
+
+    student = Student.objects.get(id=student_id)
+
     def get(self, request):
-        student = Student.objects.get(id=student_id)
+        """Wyszukiwanie grup"""
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]
-
-        context = {'navigation':Navigation(str(student), location, uid=student.id),
+        context = {'navigation': Navigation(str(self.student), location, uid=self.student.id),
                    'form': grupyForm()}
         return render(request, 'grupy/grupyForm.html', context)
 
     def post(self, request):
-        student = Student.objects.get(id=student_id)
+        """Przeglądanie znalezionych grup z możliwością zapisu do nich"""
         postback = Postback()
         location = [Location('Home', reverse('student_home')),
                     Location('przeglądanie grup', reverse('group_picker'))]
@@ -42,12 +48,12 @@ class GroupPickerView(View):
             postback.ispostback = False
             form = grupyForm(request.POST)
             if not form.is_valid():
-                return HttpResponse("Nie działam")
+                return HttpResponse("Ups…")
 
         if postback.ispostback:
-            g = GrupaZajeciowa.objects.get(id=form.cleaned_data['grupa'])
+            gr = GrupaZajeciowa.objects.get(id=form.cleaned_data['grupa'])
             try:
-                if not g.dodaj_studenta(Student.objects.get(id=form.cleaned_data['student'])):
+                if not gr.dodaj_studenta(Student.objects.get(id=form.cleaned_data['student'])):
                     postback.success = False
                     postback.message = 'Nie możesz zapisać się dwa razy do tej samej grupy!'
             except ValidationError:
@@ -72,10 +78,11 @@ class GroupPickerView(View):
                 uruchomiona=grupa.czyuruchomiona,
                 id=grupa.id
             ))
-            if grupa.studenci.filter(id=student.id):
+            if grupa.studenci.filter(id=self.student.id):
                 grupy[-1].zapisany = True
 
-        context = {'navigation': Navigation(str(student), location, uid=student.id, rodzaj=rodzaj, nazwa=nazwa),
+        context = {'navigation': Navigation(str(self.student), location, uid=self.student.id,
+                                            rodzaj=rodzaj, nazwa=nazwa),
                    'grupy': grupy, 'postback': postback}
 
         return render(request, 'grupy/grupyBrowser.html', context)
