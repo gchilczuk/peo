@@ -1,10 +1,14 @@
+"""Formularze"""
+
 from django import forms
 from ekurser.model.enums import RodzajGrupy
 
+
 class grupyForm(forms.Form):
-    CHOICES = [('', 'wszystkie')] + [(rodz.id, rodz.nazwa ) for rodz in RodzajGrupy.objects.all()]
+    CHOICES = [('', 'wszystkie')] + [(rodz.id, rodz.nazwa) for rodz in RodzajGrupy.objects.all()]
     nazwa = forms.CharField(label="Nazwa kursu", required=False)
     rodzaj = forms.ChoiceField(label='Rodzaj grupy', required=False, choices=CHOICES)
+
 
 class grupyConfirmForm(forms.Form):
     nazwa = forms.CharField(required=False)
