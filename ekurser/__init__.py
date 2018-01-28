@@ -1,0 +1,1 @@
+"""eKurser - aplikacji webowa do organizacji kursów powtórkowych i znajdywania zamienników"""

@@ -21,7 +21,6 @@ class Student(MyUser):
     nrindeksu = models.CharField(unique=True, max_length=9)
 
     class Meta:
-        managed = False
         db_table = 'student'
 
 
@@ -33,7 +32,6 @@ class NauczycielAkademicki(MyUser):
                                                 through_fields=('nauczycielakademicki', 'kurs'))
 
     class Meta:
-        managed = False
         db_table = 'nauczycielakademicki'
 
 
@@ -47,7 +45,6 @@ class Kurs(models.Model):
                                      through='Opieka', through_fields=('kurs', 'nauczycielakademicki'))
 
     class Meta:
-        managed = False
         db_table = 'kurs'
 
 
@@ -65,11 +62,12 @@ class GrupaZajeciowa(models.Model):
                                       through_fields=('grupazajeciowa', 'student'))
 
     class Meta:
-        managed = False
         db_table = 'grupazajeciowa'
         ordering = ['liczbauczestnikow']
 
     def dodaj_studenta(self, student):
+        """Dodaje studenta do grupy zajęciowej"""
+
         if self.liczbauczestnikow < self.liczbamiejsc:
             _, created = Uczestnictwo.objects.get_or_create(grupazajeciowa=self, student=student)
             self.liczbauczestnikow += 1
@@ -95,8 +93,11 @@ class WniosekOUruchomienieGrupyZajeciowej(models.Model):
     grupazajeciowa = models.ForeignKey(GrupaZajeciowa, models.DO_NOTHING, db_column='grupazajeciowaid')
 
     class Meta:
-        managed = False
         db_table = 'wniosekouruchomieniegrupyzajeciowej'
+
+    def rozpatrz(self, wynik):
+        self.zgodapelnomocnika = wynik
+        self.save()
 
 
 class Opinia(models.Model):
@@ -106,7 +107,6 @@ class Opinia(models.Model):
     tresc = models.CharField(max_length=2500)
 
     class Meta:
-        managed = False
         db_table = 'opinia'
 
 
@@ -118,7 +118,6 @@ class Termin(models.Model):
     sala = models.CharField(max_length=10)
 
     class Meta:
-        managed = False
         db_table = 'termin'
 
     def __str__(self):
