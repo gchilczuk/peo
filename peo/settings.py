@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'kursy',
         'USER': 'pomaster',
         'PASSWORD': 'pomasterpass',
-        'HOST': 'poaws.cbx5ewzaapbo.us-east-1.rds.amazonaws.com',
+        'HOST': 'poaws-backup.cbx5ewzaapbo.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }

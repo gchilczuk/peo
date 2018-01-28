@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import path
 from ekurser.kontroler.student import StudentHomeView, GroupPickerView
 from ekurser.kontroler.pracownik import TeacherHomeView, PetitionListView, PetitionView
 from ekurser.kontroler.views import main_view, clear_db
